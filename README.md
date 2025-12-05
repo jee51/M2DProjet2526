@@ -11,3 +11,8 @@ Je propose d'utiliser ce fichier comme un suivi d'actions "backlog".
 * Création d'un repository GitHub.
 * Presentation de la méthode CRISP-DM avec mise à disposition d'un modèle de Flash-Report.
 * Rappel de cours d'initiation sur l'environnement de développement collaboratif.
+
+## Vendredi 5 décembre 2025
+
+* Création des équipes
+* Rédaction des spécifications techniques.
