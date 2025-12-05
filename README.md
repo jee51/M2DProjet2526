@@ -23,9 +23,9 @@ Pour les spécifications techniques, je préconise trois sections principales :
 
 2. Validation (KPI) : établir dès le début des règles objectives qui permettent au client de vérifier que l'objectif est atteint ou patiellement atteint.
 
-3. Spécifications techniques : décomposer en lots de travaux en détaillant les éléments d'entrée, de sortie et le fonctionnalités développées dans le livrable de chaque lot ; construire une plannification (diagramme de Gantt si possible).
+3. Spécifications techniques : décomposer en lots de travaux en détaillant les éléments d'entrée, de sortie et les fonctionnalités développées dans le livrable de chaque lot ; construire une plannification (diagramme de Gantt si possible, vous pouvez utiliser l'outil libre GanttProject).
 
 Pour la fin de la session, il faut que les équipes soeint enregistrées dans le GitHub et que des versions 0 des spécifications soient enregistrées.
 
 Pour le 9 janvier, le jalon J1 doit être complété, avec une mise à jour des spécifications et une analyse des risques.
-Chaque semaine à partir du 9 janvier un rendu sous la forme de _Flash-Report_ devrai être présenté (sur place ou en ligne).
+Chaque semaine à partir du 9 janvier un rendu sous la forme de _Flash-Report_ devra être présenté (sur place ou en ligne).
