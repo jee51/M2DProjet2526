@@ -29,3 +29,17 @@ Pour la fin de la session, il faut que les équipes soeint enregistrées dans le
 
 Pour le 9 janvier, le jalon J1 doit être complété, avec une mise à jour des spécifications et une analyse des risques.
 Chaque semaine à partir du 9 janvier un rendu sous la forme de _Flash-Report_ devra être présenté (sur place ou en ligne).
+
+## Vendredi 9 janvier
+
+* Revue des deux équipes avec attribution des rôles.
+* Présentation des premières spécifications.
+* Description des entrées et des paramètres du simulateur.
+
+Pour la frois prochaine :
+
+* Flash Report avec identification de ce qui a été fait, ce qui devra être fait la semaine à venir et les point durs à discuter.
+* Structure finalisée de la table des données de sortie.
+* Identificatuon des paramètres, structure de stockage et
+* Description du mécanisme de simulation.
+
