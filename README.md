@@ -40,6 +40,6 @@ Pour la frois prochaine :
 
 * Flash Report avec identification de ce qui a été fait, ce qui devra être fait la semaine à venir et les point durs à discuter.
 * Structure finalisée de la table des données de sortie.
-* Identificatuon des paramètres, structure de stockage et
+* Identificatuon des paramètres, structure de stockage.
 * Description du mécanisme de simulation.
 
