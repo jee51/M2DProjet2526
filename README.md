@@ -54,7 +54,7 @@ Pour la prochaine fois :
 
 ## Vendredi 23 janvier
 
-
+ASIJA
 * Présentation des scénarios.
 
 MC M2D
