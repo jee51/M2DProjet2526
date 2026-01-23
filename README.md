@@ -54,3 +54,20 @@ Pour la prochaine fois :
 
 ## Vendredi 23 janvier
 
+
+* Présentation des scénarios.
+
+MC M2D
+* Revue de code.
+* Exécution sur un système.
+* Des résultats de pannes.
+  
+Pour la prochaine fois :
+
+* Tables des paramètres
+* Rédaction du document d'étude et conception.
+* Interface utilisateur du simulateur.
+* Génération de scénarios dépendants des paramètres de simulation.
+* Analyse descriptive des résultats.
+
+
