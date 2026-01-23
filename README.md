@@ -43,3 +43,14 @@ Pour la frois prochaine :
 * Identificatuon des paramètres, structure de stockage.
 * Description du mécanisme de simulation.
 
+## Vendredi 16 janvier
+
+* Retour des flash reports sur les données.
+* Discussion sur les scénarios.
+
+Pour la prochaine fois :
+
+* Scénarios d'exploitation du générateur d'événements.
+
+## Vendredi 23 janvier
+
