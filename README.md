@@ -65,9 +65,27 @@ MC M2D
 Pour la prochaine fois :
 
 * Tables des paramètres
-* Rédaction du document d'étude et conception.
+* Rédaction du document d'étude et conception (DEC).
 * Interface utilisateur du simulateur.
 * Génération de scénarios dépendants des paramètres de simulation.
 * Analyse descriptive des résultats.
 
+## Vendredi 30 janvier
 
+* Présentation des codes.
+* Résultats
+* Analyse descriptive textes et graphiques
+* Présentation des aspects mathématiques
+* Calculs de KPI
+* Interface graphique streamlit
+
+Pour la prochaine fois :
+
+* Table des paramètres et KPI
+* Plan d'expériences
+* Optimisation du coût
+* Rédaction du DEC.
+* Présentation de la méthodologie d'aticle scientifique.
+
+## Lundi 2 février
+...
