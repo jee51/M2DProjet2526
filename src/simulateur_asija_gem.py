@@ -11,39 +11,41 @@ import pandas as pd
 # ---------------------------------------------------------
 @dataclass
 class ConfigAsija:
-    n_systemes: int = 200        
-    n_jours: int = 730           
+    """Parametres du simulateur pour ajuster le comportement et les couts."""
+    n_systemes: int = 200        # Nombre de machines
+    n_jours: int = 730           # Duree de simulation (jours)
     
     # Physique
-    usure_moyenne: float = 0.003 
-    accel_age: float = 0.0008    
+    usure_moyenne: float = 0.003 # Vitesse de base d'usure
+    accel_age: float = 0.0008    # Acceleration de l'usure avec l'age
     
     # Détecteur
-    sensibilite: float = 0.85    
-    specificite: float = 0.90    
-    score_bruit: float = 0.20    
-    frequence_insp: int = 30     
+    sensibilite: float = 0.85    # Proba de detecter un vrai defaut
+    specificite: float = 0.90    # Proba de ne pas faire de fausse alerte
+    score_bruit: float = 0.20    # Bruit sur la mesure d'inspection
+    frequence_insp: int = 30     # Jours entre inspections
     
     # Coûts (€)
-    cout_reparation: float = 500.0
-    cout_remplacement: float = 1800.0
-    cout_panne: float = 4000.0   
+    cout_reparation: float = 500.0     # Cout d'une reparation
+    cout_remplacement: float = 1800.0 # Cout d'un remplacement
+    cout_panne: float = 4000.0         # Cout d'arret suite a panne
     
     # Maintenance Systématique
-    remplacement_auto_jours: int = 200 
+    remplacement_auto_jours: int = 200 # Remplacement systematique
 
     # Parametres numeriques
-    random_seed: int = 42
-    max_exponent: float = 100.0
-    score_min: float | None = None
+    random_seed: int = 42              # Graine aleatoire pour reproductibilite
+    max_exponent: float = 100.0        # Seuil de saturation de l'exponentielle
+    score_min: float | None = None     # Borne basse du score (None = pas de borne)
 
 # ---------------------------------------------------------
 # 2. LOGIQUE DE SIMULATION
 # ---------------------------------------------------------
 class SimulateurAsija:
     def __init__(self, cfg: ConfigAsija):
+        """Initialise le simulateur et ses structures de donnees."""
         self.cfg = cfg
-        # Utilisation exclusive de numpy pour l'aléatoire (Correction Import inutile)
+        # Utilisation exclusive de numpy pour l'aléatoire 
         self.rng = np.random.default_rng(self.cfg.random_seed)
         self.start_date = datetime(2026, 1, 1)
         
@@ -53,10 +55,12 @@ class SimulateurAsija:
         }
 
     def generer_id(self, prefix):
+        """Genere un identifiant court et unique par type d'objet."""
         return f"{prefix}_{uuid.uuid4().hex[:6].upper()}"
 
     def executer(self):
-        print(f"🚀 Simulation lancée pour {self.cfg.n_systemes} systèmes (Version Corrigée)...")
+        """Lance la simulation complete et alimente les tables de sortie."""
+        print(f"🚀 Simulation lancée pour {self.cfg.n_systemes} systèmes ...")
         
         for i in range(self.cfg.n_systemes):
             sys_id = f"SYS_{i:03d}"
@@ -147,6 +151,7 @@ class SimulateurAsija:
         self.sauvegarder()
 
     def appliquer_maintenance(self, date, sys_id, etat, type_acte, declencheur):
+        """Applique une action de maintenance et met a jour l'etat de l'actif."""
         duree = 2 if type_acte == "REPARATION" else 4
         cout = self.cfg.cout_reparation if type_acte == "REPARATION" else self.cfg.cout_remplacement
         
@@ -167,6 +172,7 @@ class SimulateurAsija:
         etat["busy_until"] = date + timedelta(days=duree)
 
     def sauvegarder(self):
+        """Ecrit les tables de simulation en CSV dans le dossier data."""
         os.makedirs("data", exist_ok=True)
         for table, rows in self.data.items():
             pd.DataFrame(rows).to_csv(f"data/{table}.csv", index=False)
