@@ -1,0 +1,5 @@
+politique,n_systemes,n_jours,nb_inspections,nb_maintenances,nb_pannes,cout_inspections,cout_maintenance,cout_pannes,cout_total,disponibilite,sensibilite_empirique,specificite_empirique
+corrective_pure,200,730,0,295,295,0,531000.0,3188688.35,3719688.35,0.991918,0.0,0.0
+conditionnelle_30j,200,730,4742,1523,58,284520.0,911000.0,475764.53,1671284.53,0.977616,0.776866,0.875367
+systematique_200j,200,730,0,637,60,0,1146600.0,494722.9,1641322.9,0.982548,0.0,0.0
+mixte_30j_plus_200j,200,730,4470,1344,50,268200.0,1488400.0,402162.8,2158762.8,0.973,0.758092,0.927633

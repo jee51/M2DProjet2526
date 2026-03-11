@@ -1,0 +1,383 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\title{Simulation probabiliste de politiques de maintenance}
+\subtitle{Projet M2D 2025--2026}
+\author{Équipe projet}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Plan de la présentation}
+\tableofcontents
+\end{frame}
+
+\section{Problème et objectifs}
+
+\begin{frame}{Problématique et objectif}
+\begin{itemize}
+  \item On étudie une flotte de systèmes possédant un composant critique qui se dégrade avec l'usage.
+  \item L'objectif est de comparer plusieurs politiques de maintenance sur trois axes :
+  \begin{itemize}
+    \item nombre de pannes,
+    \item coût global,
+    \item disponibilité.
+  \end{itemize}
+  \item Le livrable principal est un simulateur stochastique paramétrable.
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Idée centrale :} construire un modèle simple, cohérent et exploitable plutôt qu'un modèle artificiellement complexe.
+\end{frame}
+
+\begin{frame}{Questions auxquelles on veut répondre}
+\begin{itemize}
+  \item Quelle politique limite le mieux le risque de panne ?
+  \item Quelle politique minimise le coût total sur l'horizon étudié ?
+  \item Comment évolue l'état global de la flotte au cours du temps ?
+  \item Dans quelle mesure les conclusions sont-elles robustes à l'aléatoire ?
+\end{itemize}
+
+\vspace{0.25cm}
+Nous avons donc construit un simulateur probabiliste, puis comparé plusieurs politiques de maintenance et analysé les résultats par Monte Carlo.
+\end{frame}
+
+\section{Modélisation}
+
+\begin{frame}{Hypothèses de modélisation}
+\begin{itemize}
+  \item Tous les systèmes sont supposés identiques.
+  \item Chaque système possède un seul composant critique.
+  \item Le composant se dégrade progressivement sous l'effet de l'usage et du vieillissement.
+  \item Une inspection n'observe pas l'usure exacte, mais un score bruité.
+  \item Une réparation est partielle ; un remplacement remet le composant à neuf.
+\end{itemize}
+
+\vspace{0.2cm}
+Ces hypothèses rendent le modèle lisible, stochastique et cohérent avec le sujet.
+\end{frame}
+
+\begin{frame}{Hypothèses et lois probabilistes}
+\begin{columns}[T]
+\column{0.56\textwidth}
+\begin{itemize}
+  \item Usage journalier : loi \textbf{log-normale}
+  \item Incrément d'usure : loi \textbf{log-normale} par défaut, variante \textbf{Weibull} possible
+  \item Inspection : score bruité
+  $$score = usure + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0,\sigma^2)$$
+  \item Panne : risque journalier croissant avec l'usure et l'âge
+  $$p_t = 1 - e^{-\lambda_t}, \quad \lambda_t = \lambda_0 e^{a\,usure + b\,age}$$
+\end{itemize}
+
+\column{0.40\textwidth}
+\begin{block}{Pourquoi ce choix ?}
+\begin{itemize}
+  \item éviter un modèle trop déterministe,
+  \item garantir des variables positives,
+  \item rester lisible et justifiable.
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Chaîne logique du simulateur}
+\begin{enumerate}
+  \item Tirage de l'usage journalier
+  \item Mise à jour de l'usure
+  \item Inspection éventuelle
+  \item Calcul du risque journalier de panne
+  \item Tirage de panne ou non
+  \item Maintenance éventuelle
+  \item Enregistrement des données dans les CSV
+\end{enumerate}
+
+\vspace{0.25cm}
+On obtient ainsi une simulation \textbf{événementielle simple} mais suffisamment riche pour comparer des politiques.
+\end{frame}
+
+\section{Politiques comparées}
+
+\begin{frame}{Politiques comparées}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.28\textwidth} >{\raggedright\arraybackslash}p{0.58\textwidth}}
+\toprule
+\textbf{Politique} & \textbf{Principe} \\
+\midrule
+Corrective pure & Aucune inspection, intervention uniquement après panne \\
+Conditionnelle 30 jours & Inspection tous les 30 jours, maintenance sur alerte \\
+Systématique 200 jours & Remplacement automatique à 200 jours \\
+Mixte 30 jours + 200 jours & Inspection périodique + remplacement systématique \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.4cm}
+Ces quatre politiques couvrent les grandes familles demandées dans le sujet : corrective, conditionnelle, préventive systématique et mixte.
+\end{frame}
+
+\begin{frame}{Lecture intuitive des politiques}
+\begin{itemize}
+  \item \textbf{Corrective pure} : on attend la panne.
+  \item \textbf{Conditionnelle 30 jours} : on observe régulièrement et on agit si le détecteur alerte.
+  \item \textbf{Systématique 200 jours} : on remplace sans attendre l'apparition d'un défaut détecté.
+  \item \textbf{Mixte} : on combine observation régulière et borne d'âge maximale.
+\end{itemize}
+
+\vspace{0.2cm}
+L'intérêt de la comparaison est de comprendre l'arbitrage entre :
+\begin{itemize}
+  \item coûts de prévention,
+  \item coûts de panne,
+  \item qualité globale de la flotte.
+\end{itemize}
+\end{frame}
+
+\section{Résultats principaux}
+
+\begin{frame}{Résultats principaux -- coût total}
+\centering
+\includegraphics[width=0.92\textwidth]{presentation_figures/couts_politiques.png}
+
+\vspace{0.2cm}
+\small
+La politique corrective pure est nettement dominée en coût. Les politiques conditionnelle et systématique offrent ici les meilleurs compromis économiques.
+\end{frame}
+
+\begin{frame}{Résultats principaux -- pannes et disponibilité}
+\centering
+\includegraphics[width=0.92\textwidth]{presentation_figures/pannes_disponibilite.png}
+
+\vspace{0.2cm}
+\small
+La politique mixte réduit davantage les pannes, mais au prix d'une maintenance plus lourde. La corrective pure garde une bonne disponibilité apparente car elle n'arrête les systèmes qu'après panne.
+\end{frame}
+
+\begin{frame}{Résultats principaux -- pannes cumulées au cours du temps}
+\centering
+\includegraphics[width=0.94\textwidth]{presentation_figures/pannes_cumulees_temps.png}
+
+\vspace{0.15cm}
+\small
+Cette figure est directement liée au sujet : elle montre comment les pannes s'accumulent au cours du temps selon la politique choisie. Elle est facile à commenter et très parlante en soutenance.
+\end{frame}
+
+\begin{frame}{État global de la flotte -- systèmes dégradés}
+\centering
+\includegraphics[width=0.94\textwidth]{presentation_figures/proportion_systemes_degrades.png}
+
+\vspace{0.15cm}
+\small
+Cette courbe montre la part de la flotte qui a dépassé le seuil de défaut. Elle décrit la santé globale du parc au fil du temps.
+\end{frame}
+
+\begin{frame}{État global de la flotte -- usure moyenne}
+\centering
+\includegraphics[width=0.94\textwidth]{presentation_figures/usure_moyenne_flotte.png}
+
+\vspace{0.15cm}
+\small
+La politique préventive agit directement sur la dynamique moyenne d'usure. Cette figure est plus proche du mécanisme physique du modèle que la seule disponibilité.
+\end{frame}
+
+\begin{frame}{Lecture croisée des résultats}
+\begin{itemize}
+  \item La politique \textbf{corrective pure} limite les actions préventives mais paie un prix élevé en pannes.
+  \item La politique \textbf{conditionnelle} garde une bonne maîtrise du coût tout en s'appuyant sur le détecteur.
+  \item La politique \textbf{systématique} reste compétitive en coût grâce à la réduction du risque de panne.
+  \item La politique \textbf{mixte} est plus conservatrice sur l'état de la flotte, mais plus coûteuse.
+\end{itemize}
+\end{frame}
+
+\section{Robustesse statistique}
+
+\begin{frame}{Robustesse statistique : Monte Carlo}
+\centering
+\includegraphics[width=0.92\textwidth]{presentation_figures/monte_carlo_couts.png}
+
+\vspace{0.2cm}
+\small
+Plusieurs réplications sont nécessaires pour quantifier la variabilité. Les intervalles de confiance à 95\% confirment la hiérarchie générale entre politiques.
+\end{frame}
+
+\begin{frame}{Pourquoi l'analyse Monte Carlo est utile}
+\begin{itemize}
+  \item Une seule simulation peut être influencée par un tirage favorable ou défavorable.
+  \item Les réplications permettent de calculer une moyenne et un intervalle de confiance.
+  \item On sépare ainsi ce qui relève de la tendance générale et ce qui relève du hasard.
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Message à retenir :} les conclusions présentées ne reposent pas sur un unique scénario simulé.
+\end{frame}
+
+\section{Analyse du détecteur}
+
+\begin{frame}{Qualité du détecteur : métriques type ML}
+\begin{columns}[T]
+\column{0.52\textwidth}
+\centering
+\includegraphics[width=\textwidth]{ml_metrics/conditionnelle_30j/roc_curve.png}
+
+\column{0.44\textwidth}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Métrique} & \textbf{Valeur} \\
+\midrule
+Précision & 0.711 \\
+Rappel & 0.777 \\
+F1-score & 0.742 \\
+ROC AUC & 0.919 \\
+PR AUC & 0.827 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.35cm}
+Le détecteur simulé peut être interprété comme un classifieur binaire sur les inspections.
+\end{columns}
+\end{frame}
+
+\begin{frame}{Comparaison synthétique des scores ML}
+\centering
+\includegraphics[width=0.86\textwidth]{presentation_figures/roc_auc_policies.png}
+
+\vspace{0.2cm}
+\small
+Les politiques inspectées disposent d'un détecteur globalement performant. Les métriques ML complètent l'analyse économique en évaluant directement la qualité de la décision d'inspection.
+\end{frame}
+
+\begin{frame}{Comment interpréter les métriques du détecteur ?}
+\begin{itemize}
+  \item \textbf{Précision} : parmi les alertes, quelle part correspond à un vrai défaut ?
+  \item \textbf{Rappel} : parmi les vrais défauts, quelle part est détectée ?
+  \item \textbf{F1-score} : compromis entre précision et rappel.
+  \item \textbf{ROC AUC / PR AUC} : qualité globale de séparation sur différents seuils.
+\end{itemize}
+
+\vspace{0.2cm}
+Cette lecture est pertinente car une bonne politique conditionnelle dépend fortement de la qualité du détecteur.
+\end{frame}
+
+\section{Validation et implémentation}
+
+\begin{frame}{Validation du simulateur}
+\begin{itemize}
+  \item Des tests automatiques ont été écrits pour vérifier le bon fonctionnement du simulateur.
+  \item Les points vérifiés incluent :
+  \begin{itemize}
+    \item couverture complète du journal quotidien,
+    \item bon fonctionnement des lois d'usure,
+    \item déclenchement des maintenances,
+    \item génération correcte des sorties Monte Carlo.
+  \end{itemize}
+  \item Les exports CSV facilitent aussi la traçabilité du comportement simulé.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bonus : inversion du problème}
+\begin{itemize}
+  \item Le problème direct consiste à fixer les paramètres puis simuler les pannes.
+  \item Le problème inverse consiste à partir de données observées pour retrouver les paramètres du modèle.
+  \item Nous avons abordé ce bonus via une calibration simple par simulation :
+  \begin{itemize}
+    \item estimation directe de la loi d'usage à partir des usages observés ;
+    \item recherche de paramètres de dégradation et de panne capables de reproduire les statistiques observées.
+  \end{itemize}
+  \item Cette étape est exploratoire, mais elle montre que le simulateur peut servir de base à une future calibration sur données réelles.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bonus : qualité de la calibration inverse}
+\small
+\centering
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Métrique} & \textbf{Observé} & \textbf{Simulé} & \textbf{Erreur rel.} \\
+\midrule
+Nb. pannes & 58 & 57 & 1.7\% \\
+Nb. inspections & 4742 & 4732 & 0.2\% \\
+Coût total & 1671285 & 1880534 & 12.5\% \\
+Disponibilité & 0.9776 & 0.9722 & 0.5\% \\
+Score insp. moyen & 0.8118 & 0.8275 & 1.9\% \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3cm}
+\begin{itemize}
+  \item Les données observées utilisées ici proviennent de la politique \texttt{conditionnelle\_30j}.
+  \item La calibration reproduit correctement plusieurs grandeurs globales, mais certaines statistiques structurelles restent plus difficiles à ajuster.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Organisation des sorties}
+\begin{itemize}
+  \item \texttt{comparaison\_politiques.csv} : synthèse globale
+  \item un dossier par politique avec :
+  \begin{itemize}
+    \item \texttt{usage\_log.csv}
+    \item \texttt{inspections.csv}
+    \item \texttt{maintenance.csv}
+    \item \texttt{pannes.csv}
+    \item \texttt{etat\_journalier.csv}
+  \end{itemize}
+  \item \texttt{monte\_carlo/} : robustesse statistique
+  \item \texttt{ml\_metrics/} : scores de classification et courbes ROC / PR
+\end{itemize}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion, limites et perspectives}
+\begin{itemize}
+  \item Le simulateur permet de comparer plusieurs politiques de maintenance dans un cadre probabiliste cohérent.
+  \item La maintenance corrective pure est clairement défavorable dans notre paramétrage.
+  \item Les politiques conditionnelle et systématique constituent les meilleurs compromis observés.
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Limites :}
+\begin{itemize}
+  \item paramètres non calibrés sur données réelles,
+  \item modélisation mono-composant par système,
+  \item pas de contrainte de stock ni de ressource équipe.
+\end{itemize}
+
+\textbf{Perspectives :}
+\begin{itemize}
+  \item calibrer les paramètres sur des données observées réelles,
+  \item étendre le modèle à plusieurs composants avec interactions,
+  \item intégrer les contraintes opérationnelles : stock, équipes, délais et optimisation de politique.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Message final}
+\begin{block}{Conclusion du projet}
+Nous avons construit un simulateur stochastique simple, lisible et exploitable pour comparer des politiques de maintenance sur une flotte de systèmes.
+\end{block}
+
+\vspace{0.25cm}
+\begin{itemize}
+  \item modèle probabiliste cohérent ;
+  \item comparaison économique et opérationnelle ;
+  \item quantification de l'incertitude ;
+  \item lecture complémentaire via des métriques de classification.
+\end{itemize}
+
+\vspace{0.25cm}
+\centering
+\Large Merci pour votre attention.
+\end{frame}
+
+\end{document}

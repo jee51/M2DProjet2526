@@ -1,0 +1,5 @@
+politique,repetitions,n_systemes,n_jours,cout_total_moyen,cout_total_ic95_bas,cout_total_ic95_haut,nb_pannes_moyen,nb_pannes_ic95_bas,nb_pannes_ic95_haut,disponibilite_moyenne,disponibilite_ic95_bas,disponibilite_ic95_haut
+corrective_pure,5,50,365,278515.57,235516.99,321514.15,23.6,19.954,27.246,0.994992,0.994221,0.995762
+conditionnelle_30j,5,50,365,169187.26,141156.51,197218.02,5.6,2.653,8.547,0.982093,0.981596,0.982591
+systematique_200j,5,50,365,164579.78,141602.94,187556.62,7.6,5.232,9.968,0.987792,0.9873,0.988283
+mixte_30j_plus_200j,5,50,365,218362.88,203095.89,233629.87,5.0,3.36,6.64,0.977852,0.977525,0.978178

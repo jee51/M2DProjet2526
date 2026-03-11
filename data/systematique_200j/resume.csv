@@ -1,0 +1,2 @@
+politique,n_systemes,n_jours,nb_inspections,nb_maintenances,nb_pannes,cout_inspections,cout_maintenance,cout_pannes,cout_total,disponibilite,sensibilite_empirique,specificite_empirique
+systematique_200j,200,730,0,637,60,0,1146600.0,494722.9,1641322.9,0.982548,0.0,0.0

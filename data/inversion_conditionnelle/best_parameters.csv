@@ -1,0 +1,10 @@
+parameter,estimated_value,method
+usage_log_mu,1.001134,direct_from_usage_logs
+usage_log_sigma,0.448878,direct_from_usage_logs
+usure_base,0.0015687,simulation_based_calibration
+usure_age_facteur,0.38549472,simulation_based_calibration
+lambda_panne_base,3e-05,simulation_based_calibration
+lambda_panne_usure,2.37254673,simulation_based_calibration
+lambda_panne_age,0.37926117,simulation_based_calibration
+inspection_noise_std,0.45123574,simulation_based_calibration
+fraction_usure_restante_apres_reparation,0.7,simulation_based_calibration

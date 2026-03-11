@@ -1,0 +1,2 @@
+politique,n_systemes,n_jours,nb_inspections,nb_maintenances,nb_pannes,cout_inspections,cout_maintenance,cout_pannes,cout_total,disponibilite,sensibilite_empirique,specificite_empirique
+conditionnelle_30j,12,80,24,0,0,1440.0,0,0,1440.0,1.0,0.0,1.0

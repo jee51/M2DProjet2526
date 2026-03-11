@@ -1,0 +1,2 @@
+politique,n_systemes,n_jours,nb_inspections,nb_maintenances,nb_pannes,cout_inspections,cout_maintenance,cout_pannes,cout_total,disponibilite,sensibilite_empirique,specificite_empirique
+corrective_pure,200,730,0,295,295,0,531000.0,3188688.35,3719688.35,0.991918,0.0,0.0
