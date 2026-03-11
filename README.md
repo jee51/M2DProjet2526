@@ -88,14 +88,9 @@ Utiliser Monte Carlo pour donner :
 - une moyenne ;
 - un intervalle de confiance à 95%.
 
-### 4. Limites à assumer franchement
+### 4. Limites 
 - pas de calibration sur données réelles ;
 - paramètres choisis de façon plausible mais non identifiés ;
 - un seul mode de défaillance ;
 - pas de stock de pièces ni de ressource équipe.
 
-## Recommandation pour la soutenance
-Si vous manquez de temps, assumez une posture honnête :
-- "Nous avons construit un simulateur simple mais cohérent" ;
-- "Nous avons préféré un modèle lisible et justifiable à un modèle artificiellement complexe" ;
-- "La prochaine étape serait le calibrage/inversion sur données observées".
